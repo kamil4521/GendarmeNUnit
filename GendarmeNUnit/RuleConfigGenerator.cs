@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace GiskardSolutions.GendarmeNUnit
 {
@@ -13,23 +15,73 @@ namespace GiskardSolutions.GendarmeNUnit
         {
             public CustomConfig() : base()
             {
-                _ruleLibaryCollection = new List<string>();
+                _ruleModuleCollection = new List<RuleModule>();
             }
 
-            public void AddRuleLibrary(string ruleLibraryPath)
+            public void AddRuleLibrary(string name, string ruleLibraryPath)
             {
                 if (!File.Exists(ruleLibraryPath))
                     throw new Exceptions.RuleLibraryFileNotExists(ruleLibraryPath);
 
-                _ruleLibaryCollection.Add(ruleLibraryPath);
+                if (_ruleModuleCollection.Any(r=>r.Name == name))
+                    throw new Exceptions.RuleLibraryExistsInConfig(name);
+
+                _ruleModuleCollection.Add(new RuleModule(name, ruleLibraryPath));
+            }
+
+            public void EnableAllRules(string ruleLibraryName)
+            {
+                AddRule(ruleLibraryName, "*");
+            }
+
+            public void DisableAllRules(string ruleLibraryName)
+            {
+                RemoveRule(ruleLibraryName, "*");
+            }
+
+            public void AddRule(string ruleLibraryName, string concreteRule)
+            {
+                if (!_ruleModuleCollection.Any(r=>r.Name == ruleLibraryName))
+                    throw new Exceptions.RuleLibraryNotExistsInConfig(ruleLibraryName);
+
+                _ruleModuleCollection.Single(r => r.Name == ruleLibraryName).Rules.Add(concreteRule);
+            }
+
+            public void RemoveRule(string ruleLibraryName, string concreteRule)
+            {
+                if (_ruleModuleCollection.Any(r => r.Name == ruleLibraryName))
+                    _ruleModuleCollection.Single(r => r.Name == ruleLibraryName).Rules.Remove(concreteRule);
             }
 
             protected override void UpdateXml()
             {
-                base.UpdateXml();
+                var customConfig = RuleConfig.XPathSelectElements("/ruleset[@name='custom']").Single();
+                foreach (var ruleModule in _ruleModuleCollection)
+                {
+                    var rules = ruleModule.Rules.Contains("*") ? "*" : string.Join(" | ", ruleModule.Rules);
+                    var ruleNode = new XElement("rules", 
+                        new XAttribute("include", rules),
+                        new XAttribute("from", ruleModule.FilePath)
+                    );
+                    customConfig.Add(ruleNode);
+                }
             }
 
-            private readonly List<string> _ruleLibaryCollection;
+            private class RuleModule
+            {
+                public string Name { get; private set; }
+                public string FilePath { get; private set; }
+                public HashSet<string> Rules { get; private set; }
+
+                public RuleModule(string name, string filePath)
+                {
+                    Name = name;
+                    FilePath = filePath;
+                    Rules = new HashSet<string>();
+                }
+            }
+
+            private readonly List<RuleModule> _ruleModuleCollection;
         }
 
         public void Save(string fileName)
@@ -42,7 +94,10 @@ namespace GiskardSolutions.GendarmeNUnit
 
         protected RuleConfigGenerator()
         {
-            RuleConfig = XElement.Load("exampleRules.xml");
+            var currentAssembly = Assembly.GetExecutingAssembly();
+            var exampleConfigName = currentAssembly.GetManifestResourceNames().Single(r => r.EndsWith("exampleRules.xml"));
+            Stream exampleConfig = currentAssembly.GetManifestResourceStream(exampleConfigName);
+            RuleConfig = XElement.Load(exampleConfig);
         }
 
         protected virtual void UpdateXml()
@@ -54,6 +109,16 @@ namespace GiskardSolutions.GendarmeNUnit
             public class RuleLibraryFileNotExists : Exceptions
             {
                 public RuleLibraryFileNotExists(string file) : base(string.Format("Rule library {0} not exists", file)) { }
+            }
+
+            public class RuleLibraryExistsInConfig : Exceptions
+            {
+                public RuleLibraryExistsInConfig(string name) : base(string.Format("Rule library {0} exists in config", name)) { }
+            }
+
+            public class RuleLibraryNotExistsInConfig : Exceptions
+            {
+                public RuleLibraryNotExistsInConfig(string name) : base(string.Format("Rule library {0} not exists in config", name)) { }
             }
 
             public Exceptions() : base() { }

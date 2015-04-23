@@ -130,6 +130,5 @@
   </ruleset>
   <!-- Custom ruleset -->
   <ruleset name="custom">
-    <rules include="" from=""/>
   </ruleset>
 </gendarme>
