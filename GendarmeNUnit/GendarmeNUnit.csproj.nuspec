@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/kamil4521/GendarmeNUnit/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/kamil4521/GendarmeNUnit</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Gendarme NUnit boilerplate for tests</description>
+    <copyright>Copyright 2015</copyright>
+    <tags>Gendarme NUnit</tags>
+    <dependencies>
+      <dependency id="NUnit" version="2.6.4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="GendarmeBin\*" target="tools\" />
+  </files>
+</package>
