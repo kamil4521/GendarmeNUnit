@@ -1,0 +1,1 @@
+.nuget\NuGet.exe pack GendarmeNUnit\GendarmeNUnit.csproj -Build -NonInteractive
