@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="GendarmeBin\*" target="tools\" />
+    <file src="tools\GendarmeBin\*" target="tools\GendarmeBin\" />
   </files>
 </package>

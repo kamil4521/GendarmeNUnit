@@ -53,7 +53,36 @@
     <None Include="GendarmeNUnit.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="tools\GendarmeBin\gendarme.exe" />
+    <None Include="tools\GendarmeBin\Gendarme.Framework.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.BadPractice.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Concurrency.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Correctness.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Design.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Design.Generic.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Design.Linq.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Exceptions.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Gendarme.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Interoperability.Com.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Interoperability.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Maintainability.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Naming.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.NUnit.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Performance.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Portability.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Security.Cas.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Security.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Serialization.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Smells.dll" />
+    <None Include="tools\GendarmeBin\Gendarme.Rules.Ui.dll" />
+    <None Include="tools\GendarmeBin\GendarmeWizard.exe" />
+    <None Include="tools\GendarmeBin\ICSharpCode.SharpZipLib.dll" />
+    <None Include="tools\GendarmeBin\Mono.Cecil.dll" />
+    <None Include="tools\GendarmeBin\Mono.Cecil.Mdb.dll" />
+    <None Include="tools\GendarmeBin\Mono.Cecil.Pdb.dll" />
+    <None Include="tools\GendarmeBin\rules.xml" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="exampleRules.xml" />
   </ItemGroup>
