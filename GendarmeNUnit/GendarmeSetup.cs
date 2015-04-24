@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Reflection;
 
 namespace GiskardSolutions.GendarmeNUnit
 {
@@ -12,15 +10,31 @@ namespace GiskardSolutions.GendarmeNUnit
         [SetUp]
         public void Setup()
         {
-            Initialize();
+            _configFilePath = Path.GetTempFileName();
+            _ruleConfig = BuildRuleConfig();
+            _ruleConfig.Save(_configFilePath);
+
             RunGendarme();
         }
 
-        protected abstract void Initialize();
+        [TearDown]
+        public void Dispose()
+        {
+            if (File.Exists(_configFilePath))
+                File.Delete(_configFilePath);
+        }
+
+        protected abstract RuleConfigGenerator BuildRuleConfig();
 
         private void RunGendarme()
         {
-            throw new NotImplementedException();
+            var location = Assembly.GetAssembly(typeof(GendarmeSetup)).Location;
+
+            //new ProcessStartInfo()
+            //Process.Start()
         }
+
+        private string _configFilePath;
+        private RuleConfigGenerator _ruleConfig;
     }
 }
