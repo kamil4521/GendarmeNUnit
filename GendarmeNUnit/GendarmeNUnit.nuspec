@@ -14,9 +14,7 @@
     <tags>Gendarme NUnit</tags>
     <dependencies>
       <dependency id="NUnit" version="2.6.4" />
+      <dependency id="SharpZipLib" version="0.86.0" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="tools\GendarmeBin\*" target="tools\GendarmeBin\" />
-  </files>
 </package>

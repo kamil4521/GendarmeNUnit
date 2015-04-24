@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace GiskardSolutions.GendarmeNUnit
@@ -10,6 +11,7 @@ namespace GiskardSolutions.GendarmeNUnit
         [SetUp]
         public void Setup()
         {
+            _tmpPath = Path.GetTempPath();
             _configFilePath = Path.GetTempFileName();
             _ruleConfig = BuildRuleConfig();
             _ruleConfig.Save(_configFilePath);
@@ -28,13 +30,23 @@ namespace GiskardSolutions.GendarmeNUnit
 
         private void RunGendarme()
         {
-            var location = Assembly.GetAssembly(typeof(GendarmeSetup)).Location;
+            ExtractGendarme();
 
-            //new ProcessStartInfo()
-            //Process.Start()
+        }
+
+        private void ExtractGendarme()
+        {
+            var currentAssembly = Assembly.GetAssembly(typeof(GendarmeSetup));
+            var gendarmeArchiveName = currentAssembly.GetManifestResourceNames().Single(r => r.EndsWith("GendarmeBin.zip"));
+            Stream gendarmeArchive = currentAssembly.GetManifestResourceStream(gendarmeArchiveName);
+
+            Directory.CreateDirectory(_tmpPath);
+
+            new Unzip(gendarmeArchive, _tmpPath).Extract();
         }
 
         private string _configFilePath;
         private RuleConfigGenerator _ruleConfig;
+        private string _tmpPath;
     }
 }
