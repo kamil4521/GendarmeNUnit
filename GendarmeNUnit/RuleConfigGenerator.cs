@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -13,7 +12,13 @@ namespace GiskardSolutions.GendarmeNUnit
     {
         public class CustomConfig : RuleConfigGenerator
         {
-            public CustomConfig() : base()
+            public override string RuleSetName
+            {
+                get { return "custom"; }
+            }
+
+            public CustomConfig()
+                : base()
             {
                 _ruleModuleCollection = new List<RuleModule>();
             }
@@ -23,10 +28,10 @@ namespace GiskardSolutions.GendarmeNUnit
                 if (!File.Exists(ruleLibraryPath))
                     throw new Exceptions.RuleLibraryFileNotExists(ruleLibraryPath);
 
-                if (_ruleModuleCollection.Any(r=>r.Name == name))
+                if (_ruleModuleCollection.Any(r => r.Name == name))
                     throw new Exceptions.RuleLibraryExistsInConfig(name);
 
-                _ruleModuleCollection.Add(new RuleModule(name, ruleLibraryPath));
+                _ruleModuleCollection.Add(new RuleModule(name, Path.GetFullPath(ruleLibraryPath)));
             }
 
             public void EnableAllRules(string ruleLibraryName)
@@ -41,7 +46,7 @@ namespace GiskardSolutions.GendarmeNUnit
 
             public void AddRule(string ruleLibraryName, string concreteRule)
             {
-                if (!_ruleModuleCollection.Any(r=>r.Name == ruleLibraryName))
+                if (!_ruleModuleCollection.Any(r => r.Name == ruleLibraryName))
                     throw new Exceptions.RuleLibraryNotExistsInConfig(ruleLibraryName);
 
                 _ruleModuleCollection.Single(r => r.Name == ruleLibraryName).Rules.Add(concreteRule);
@@ -55,11 +60,11 @@ namespace GiskardSolutions.GendarmeNUnit
 
             protected override void UpdateXml()
             {
-                var customConfig = RuleConfig.XPathSelectElements("/ruleset[@name='custom']").Single();
+                var customConfig = RuleConfig.XPathSelectElements(string.Format("/ruleset[@name='{0}']", RuleSetName)).Single();
                 foreach (var ruleModule in _ruleModuleCollection)
                 {
                     var rules = ruleModule.Rules.Contains("*") ? "*" : string.Join(" | ", ruleModule.Rules);
-                    var ruleNode = new XElement("rules", 
+                    var ruleNode = new XElement("rules",
                         new XAttribute("include", rules),
                         new XAttribute("from", ruleModule.FilePath)
                     );
@@ -83,6 +88,16 @@ namespace GiskardSolutions.GendarmeNUnit
 
             private readonly List<RuleModule> _ruleModuleCollection;
         }
+
+        public class DefaultConfig : RuleConfigGenerator
+        {
+            public override string RuleSetName
+            {
+                get { return "default"; }
+            }
+        }
+
+        public abstract string RuleSetName { get; }
 
         public void Save(string fileName)
         {
