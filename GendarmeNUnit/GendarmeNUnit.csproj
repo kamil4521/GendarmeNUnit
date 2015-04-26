@@ -48,7 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GendarmeSetup.cs" />
+    <Compile Include="AbstractAssemblyTest.cs" />
+    <Compile Include="GendarmeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleConfigGenerator.cs" />
     <Compile Include="Unzip.cs" />

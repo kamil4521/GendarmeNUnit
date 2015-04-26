@@ -11,7 +11,7 @@ namespace GiskardSolutions.GendarmeNUnit.Tests.RuleConfigGenerator
         public void ShouldGenerateCustomConfigWithOneRule()
         {
             var configGenerator = new GendarmeNUnit.RuleConfigGenerator.CustomConfig();
-            configGenerator.AddRuleLibrary("Gendarme.Rules.Naming", "..\\..\\..\\GendarmeNUnit\\GendarmeBin\\Gendarme.Rules.Naming.dll");
+            configGenerator.AddRuleLibrary("Gendarme.Rules.Naming", "..\\..\\..\\TestData\\Gendarme.Rules.Naming.dll");
             configGenerator.AddRule("Gendarme.Rules.Naming", "AvoidDeepNamespaceHierarchyRule");
 
             var resultFile = Path.GetTempFileName();
@@ -29,7 +29,7 @@ namespace GiskardSolutions.GendarmeNUnit.Tests.RuleConfigGenerator
         public void ShouldGenerateCustomConfigWithEnabledAllRules()
         {
             var configGenerator = new GendarmeNUnit.RuleConfigGenerator.CustomConfig();
-            configGenerator.AddRuleLibrary("Gendarme.Rules.Naming", "..\\..\\..\\GendarmeNUnit\\GendarmeBin\\Gendarme.Rules.Naming.dll");
+            configGenerator.AddRuleLibrary("Gendarme.Rules.Naming", "..\\..\\..\\TestData\\Gendarme.Rules.Naming.dll");
             configGenerator.EnableAllRules("Gendarme.Rules.Naming");
 
             var resultFile = Path.GetTempFileName();

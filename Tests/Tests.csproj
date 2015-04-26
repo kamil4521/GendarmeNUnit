@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GendarmeSetupTest.cs" />
+    <Compile Include="CodeProblemDetectTests.cs" />
     <Compile Include="RuleConfigGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFixtureSetUp.cs" />

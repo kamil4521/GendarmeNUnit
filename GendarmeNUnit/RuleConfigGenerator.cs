@@ -99,6 +99,8 @@ namespace GiskardSolutions.GendarmeNUnit
 
         public abstract string RuleSetName { get; }
 
+        public List<string> TestedAssemblies { get; private set; }
+
         public void Save(string fileName)
         {
             UpdateXml();
@@ -109,6 +111,7 @@ namespace GiskardSolutions.GendarmeNUnit
 
         protected RuleConfigGenerator()
         {
+            TestedAssemblies = new List<string>();
             var currentAssembly = Assembly.GetExecutingAssembly();
             var exampleConfigName = currentAssembly.GetManifestResourceNames().Single(r => r.EndsWith("exampleRules.xml"));
             Stream exampleConfig = currentAssembly.GetManifestResourceStream(exampleConfigName);
