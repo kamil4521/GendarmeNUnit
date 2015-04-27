@@ -28,7 +28,7 @@ namespace GiskardSolutions.GendarmeNUnit
                 if (_ruleModuleCollection.Any(r => r.Name == name))
                     throw new Exceptions.RuleLibraryExistsInConfig(name);
 
-                _ruleModuleCollection.Add(new RuleModule(name, Path.GetFullPath(ruleLibraryPath)));
+                _ruleModuleCollection.Add(new RuleModule(name, ruleLibraryPath));
             }
 
             public void EnableAllRules(string ruleLibraryName)
