@@ -25,9 +25,6 @@ namespace GiskardSolutions.GendarmeNUnit
 
             public void AddRuleLibrary(string name, string ruleLibraryPath)
             {
-                if (!File.Exists(ruleLibraryPath))
-                    throw new Exceptions.RuleLibraryFileNotExists(ruleLibraryPath);
-
                 if (_ruleModuleCollection.Any(r => r.Name == name))
                     throw new Exceptions.RuleLibraryExistsInConfig(name);
 

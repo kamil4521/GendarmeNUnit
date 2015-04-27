@@ -9,9 +9,9 @@
     <licenseUrl>https://github.com/kamil4521/GendarmeNUnit/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/kamil4521/GendarmeNUnit</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Gendarme NUnit boilerplate for tests</description>
+    <description>Mono Gendarme NUnit boilerplate for tests</description>
     <copyright>Copyright 2015</copyright>
-    <tags>Gendarme NUnit</tags>
+    <tags>Mono Gendarme NUnit</tags>
     <dependencies>
       <dependency id="NUnit" version="2.6.4" />
       <dependency id="SharpZipLib" version="0.86.0" />
