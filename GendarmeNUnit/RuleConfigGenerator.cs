@@ -58,6 +58,7 @@ namespace GiskardSolutions.GendarmeNUnit
             protected override void UpdateXml()
             {
                 var customConfig = RuleConfig.XPathSelectElements(string.Format("/ruleset[@name='{0}']", RuleSetName)).Single();
+                customConfig.Nodes().Remove();
                 foreach (var ruleModule in _ruleModuleCollection)
                 {
                     var rules = ruleModule.Rules.Contains("*") ? "*" : string.Join(" | ", ruleModule.Rules);
