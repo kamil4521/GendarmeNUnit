@@ -130,5 +130,6 @@
   </ruleset>
   <!-- Custom ruleset -->
   <ruleset name="custom">
+    <rules include="*" from="Gendarme.Rules.BadPractice.dll" />
   </ruleset>
 </gendarme>
