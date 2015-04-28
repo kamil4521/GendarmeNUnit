@@ -59,10 +59,9 @@ namespace GiskardSolutions.GendarmeNUnit
         {
             if (!_isDisposed)
             {
-                if (File.Exists(_configFilePath))
-                    File.Delete(_configFilePath);
-                if (Directory.Exists(_gendarmeService.GendarmeDir))
-                    Directory.Delete(_gendarmeService.GendarmeDir, true);
+                _isDisposed = true;
+                _gendarmeService.Dispose();
+                _gendarmeService = null;
             }
         }
 
