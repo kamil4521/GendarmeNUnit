@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 namespace GiskardSolutions.GendarmeNUnit
 {
@@ -68,24 +67,19 @@ namespace GiskardSolutions.GendarmeNUnit
         protected AbstractAssemblyTest()
         {
             _gendarmeService = new GendarmeService(BuildRuleConfig());
+            _gendarmeService.ExtractGendarme();
         }
 
         protected IEnumerable Configuration
         {
             get
             {
-                _configFilePath = Path.GetTempFileName();
-                _ruleConfig = BuildRuleConfig();
-                _ruleConfig.Save(_configFilePath);
-
-                _gendarmeService.ExtractGendarme();
-
-                _gendarmeReports = new List<string>();
+                var gendarmeReports = new List<string>();
                 foreach (var location in _gendarmeService.GetLocationsOfTestedAssemblies())
                 {
-                    _gendarmeReports.Add(_gendarmeService.ExecuteGendarmeFor(location));
+                    gendarmeReports.Add(_gendarmeService.ExecuteGendarmeFor(location));
                 }
-                foreach (var resultFile in _gendarmeReports)
+                foreach (var resultFile in gendarmeReports)
                 {
                     var defectCollection = _gendarmeService.GetDefectsFor(resultFile);
                     foreach (var defect in defectCollection)
@@ -99,10 +93,6 @@ namespace GiskardSolutions.GendarmeNUnit
         protected abstract RuleConfigGenerator BuildRuleConfig();
 
         private GendarmeService _gendarmeService;
-        private string _configFilePath;
-        private RuleConfigGenerator _ruleConfig;
-        private string _tmpPath;
         private bool _isDisposed = false;
-        private List<string> _gendarmeReports;
     }
 }
